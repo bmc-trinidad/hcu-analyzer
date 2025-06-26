@@ -1,11 +1,4 @@
-<#
-Write-Host 'Hello, World!'
-'Hello, World!' | Write-Output
-$wo = 'Hello, World!' | Write-Output
-Get-Variable wo
-#>
-
-#
+# first function that launches if user launches script with no parameters
 function Interactive {
 	'What action would you like to take?' | Write-Host
 	
@@ -13,6 +6,7 @@ function Interactive {
 	For ($i=0; $i -lt $options.Length; $i++) {
 		#wasn't able to get the output I wanted in a single line for Write-Output. 
 		#had to create variables with the string I wanted and then use Write-Output
+		#ISS-001
 		$itemNumber = $i + 1
 		$itemOption = $options[$i]
 		Write-Host "$itemNumber. $itemOption"

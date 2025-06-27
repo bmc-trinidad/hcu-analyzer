@@ -32,8 +32,12 @@ function Get-ProclogFiles {
 	Select-String -Pattern $orderId -Path $hcuPath\AG_LOG\proclog\* -List | Select-Object Filename
 }
 
+# used to search the dailylog directory for an order ID
 function Search-Dailylog {
-	Write-Host "no code yet"
+	$orderId = Read-Host "Enter search string"
+	$hcuPath = Read-Host "Enter HCU path"
+
+	Select-String -Pattern $orderId -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
 }
 
 Interactive

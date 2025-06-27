@@ -34,10 +34,15 @@ function Get-ProclogFiles {
 
 # used to search the dailylog directory for an order ID
 function Search-Dailylog {
-	$orderId = Read-Host "Enter search string"
+	$orderId = Read-Host "Enter order ID"
+	$runCount = Read-Host "Enter run count [use empty value for all]"
 	$hcuPath = Read-Host "Enter HCU path"
 
-	Select-String -Pattern $orderId -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
+	if (!$runCount) {
+		Select-String -Pattern $orderId -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
+	} else {
+		Select-String -Pattern "$orderId, RUNNO 0000$runCount" -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
+	}
 }
 
 Interactive

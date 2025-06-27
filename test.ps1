@@ -2,7 +2,7 @@
 function Interactive {
 	'What action would you like to take?' | Write-Host
 	
-	$options = @('Search proclog directory for files matching a string')
+	$options = @('Search proclog directory for files matching a string', 'Search dailylog for orderID')
 	For ($i=0; $i -lt $options.Length; $i++) {
 		#wasn't able to get the output I wanted in a single line for Write-Output. 
 		#had to create variables with the string I wanted and then use Write-Output
@@ -17,11 +17,12 @@ function Interactive {
 	
 	if ($selection -eq 1) {
 		Get-ProclogFiles
+	} elseif ($selection -eq 2) {
+		Search-Dailylog
 	} else {
 		Write-Host "Invalid selection"
 	}
 }
-
 
 # used to list the proclog files that contain the string provided
 function Get-ProclogFiles {
@@ -29,6 +30,10 @@ function Get-ProclogFiles {
 	$hcuPath = Read-Host "Enter HCU path"
 	
 	Select-String -Pattern $orderId -Path $hcuPath\AG_LOG\proclog\* -List | Select-Object Filename
+}
+
+function Search-Dailylog {
+	Write-Host "no code yet"
 }
 
 Interactive

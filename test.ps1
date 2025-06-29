@@ -38,15 +38,25 @@ function Search-Dailylog {
 	$runCount = Read-Host "Enter run count [use empty value for all]"
 	$hcuPath = Read-Host "Enter HCU path"
 
-	# remove leading zeros. using ternary instead of if statement
-	$runCount = ($runCount) ? $runCount -replace '^0+', '' : $runCount
+	$runCount = ($runCount) ? $runCount -replace '^0+', '' : $runCount # remove leading zeros. using ternary instead of if statement
+	$numOfInt = ($runCount | Measure-Object -Character).Characters # counting the number of integers 
 
-
+	
 	if (!$runCount) {
 		Select-String -Pattern $orderId -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
-	} else {
+	} elseif ($numOfInt -eq 1) {
 		Select-String -Pattern "$orderId, RUNNO 0000$runCount" -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
-	} 
+	} elseif ($numOfInt -eq 2) {
+		Select-String -Pattern "$orderId, RUNNO 000$runCount" -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
+	} elseif ($numOfInt -eq 3) {
+		Select-String -Pattern "$orderId, RUNNO 00$runCount" -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
+	} elseif ($numOfInt -eq 4) {
+		Select-String -Pattern "$orderId, RUNNO 0$runCount" -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
+	} elseif ($numOfInt -eq 5) {
+		Select-String -Pattern "$orderId, RUNNO $runCount" -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
+	} else {
+		Write-Host "This script does not support 6 digit run numbers"
+	}
 }
 
 Interactive

@@ -38,18 +38,15 @@ function Search-Dailylog {
 	$runCount = Read-Host "Enter run count [use empty value for all]"
 	$hcuPath = Read-Host "Enter HCU path"
 
-	# remove leading zeros
-	if ($runCount) {
-		$runCount = $runCount -replace '^0+', ''
-		Write-Host $runCount
-	}
+	# remove leading zeros. using ternary instead of if statement
+	$runCount = ($runCount) ? $runCount -replace '^0+', '' : $runCount
 
-	<# 
+
 	if (!$runCount) {
 		Select-String -Pattern $orderId -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
 	} else {
 		Select-String -Pattern "$orderId, RUNNO 0000$runCount" -Path $hcuPath\AG_LOG\dailylog\* | Select-Object Line
-	} #>
+	} 
 }
 
 Interactive
